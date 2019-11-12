@@ -1,3 +1,7 @@
+import './tsFunction'
+
+
+
 let a:number = 123;
 const h1 = document.createElement("h1");
 h1.innerHTML = "hello TypeScript!";
@@ -22,7 +26,7 @@ const info = merge(info1, info2);
 console.log(info.name); // error 类型“{ name: string; } & { age: number; }”上不存在属性“address”
 
 
-function foo() {
+function foo():void {
     const name = Symbol();
     let obj = {
         [name]: "liwei"

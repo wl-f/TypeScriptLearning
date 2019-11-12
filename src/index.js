@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./tsFunction");
 var a = 123;
 var h1 = document.createElement("h1");
 h1.innerHTML = "hello TypeScript!";
