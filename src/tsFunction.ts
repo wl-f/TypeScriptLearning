@@ -147,17 +147,42 @@ console.log('tsFunction-foo()',foo(100)) ;
 
 
 /*********函数重载***********/
-// 存疑, 了解
+// TypeScript的函数重载通过为一个函数指定多个函数类型定义，从而对函数调用的返回值进行检查
+// 说人话,TypeScript的函数重载是定义了 多个 函数名,参数及参数类型,返回值及返回值类型和 一个 函数体, 它们一整套叫做函数重载. 具体看下面代码和注释(有些报错的事例放开注释看一下)
 
-
-function disp(s1:string):void;
-function disp(n1:number,s1:string):void;
-
-function disp(x:any,y?:any):void {
-    console.log(x);
-    console.log(y);
+function handleData(x: string): string[]; // 这个是重载的一部分，指定当参数类型为string时，返回值为string类型的元素构成的数组
+function handleData(x: number): string; // 这个也是重载的一部分，指定当参数类型为number时，返回值类型为string
+function handleData(x: any): any { // 这个就是重载的内容了，他是实体函数，不算做重载的部分
+    if (typeof x === "string") {
+        return x.split("");
+    } else {
+        return x
+            .toString()
+            .split("")
+            .join("_");
+    }
 }
-disp("abc");
-disp(1,"xyz");
+handleData("abc").join("_");
+console.log('tsFunction-handleData()',handleData("abc")) ;
 
+handleData(123);
+console.log('tsFunction-handleData()',handleData(123)) ;
 
+// handleData(123).join("_"); // error 类型"string"上不存在属性"join"  匹配到的是参数为number返回值为string的重载,返回值为字符串没有join属性
+// handleData(false); // error 类型"boolean"的参数不能赋给类型"number"的参数。匹配不到重载
+
+//重载疑惑:函数重载返回值类型,只要重载定义与函数实体返回定义一致就可以的, 并没有校验实际返回值的类型(具体效果看下方注释代码)
+
+/*
+function handleData(x: string): string[]; // 这个是重载的一部分，指定当参数类型为string时，返回值为string类型的元素构成的数组
+function handleData(x: number): string; // 这个也是重载的一部分，指定当参数类型为number时，返回值类型为string
+function handleData(x: any): string | string[] { // 这个就是重载的内容了，他是实体函数，不算做重载的部分
+    if (typeof x === "string") {
+        return x.split("");
+    } else {
+        return x
+
+    }
+}
+handleData(123); // 参数number类型,实际返回值也是number类型. 但无论重载定义还是实体函数的返回值类型都没有number, 代码正常运行也没有报错提示.
+*/
