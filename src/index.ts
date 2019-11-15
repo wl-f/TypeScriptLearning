@@ -1,12 +1,14 @@
-import './tsFunction'
+// import './tsFunction'
+// import './interfaceAndClass'
+// import './enum'
 
 
 
-let a:number = 123;
+// let a:number = 123;
 const h1 = document.createElement("h1");
 h1.innerHTML = "hello TypeScript!";
 document.body.appendChild(h1);
-console.log(a);
+// console.log(a);
 
 
 const merge = <T, U>(arg1: T, arg2: U): T & U => {
@@ -26,7 +28,7 @@ const info = merge(info1, info2);
 console.log(info.name); // error 类型“{ name: string; } & { age: number; }”上不存在属性“address”
 
 
-function foo():void {
+function foo2 ():void {
     const name = Symbol();
     let obj = {
         [name]: "liwei"
@@ -35,68 +37,53 @@ function foo():void {
     console.log(obj[name])
 }
 
-foo();
+foo2();
 
-// 枚举
+
+let e = (a: number) => 0;
+let y = (b: string) => 0;
+let z = (c: string) => false;
+console.log('y',y(''))
+namespace tt{}
 enum Status {
-    Success = 200,
-    NotFound = 404,
-    Error = 500
+    On,
+    Off
 }
-enum sw {
-    Off = 'off',
-    On = 'on'
+enum Color {
+    White,
+    Black
 }
-// 只有数字枚举支持反向映射
-console.log(Status.Success);
-console.log(Status[200]);
+let s = Status.On;
+console.log(s);
+// s = 3;
+console.log(Status.On,Status.Off)
+let d = Color.White;
+console.log(d);
+console.log('s = c',0 === 0);
 
 
-// const enum
-// 定义枚举的语句之前加上const关键字,这样编译后的代码不会创建这个对象,只是会从枚举里拿到相应的值进行替换;
-// 注意观察这段代码编译完之后的js代码,就可以看到其中的区别
+// s = c; // error Type 'Color.White' is not assignable to type 'Status'
+function getSplicedStr(num: number | null): string {
+    function getRes(prefix: string) { // 这里在函数getSplicedStr里定义一个函数getRes，我们最后调用getSplicedStr返回的值实际是getRes运行后的返回值
+        return prefix + num!.toFixed().toString(); // 这里使用参数num，num的类型为number或null，在运行前编译器是无法知道在运行时num参数的实际类型的，所以这里会报错，因为num参数可能为null
+    }
+    num = num || 0.1; // 但是这里进行了赋值，如果num为null则会将0.1赋给num，所以实际调用getRes的时候，getRes里的num拿到的始终不为null
+    return getRes("liwei");
+}
 
-enum Switch {
-    Off,
-    On
+function getValue<T, K extends keyof T>(obj: T, names: K[]): T[K][] { // 这里使用泛型，并且约束泛型变量K的类型是"keyof T"，也就是类型T的所有字段名组成的联合类型
+    return names.map(n => obj[n]); // 指定getValue的返回值类型为T[K][]，即类型为T的值的属性值组成的数组
 }
-const enum Animal {
-    Dog = 1,
-    Cat = 2
-}
-const switchStatus = Switch.On;
-const animalType = Animal.Dog;
-
-// enum总结: 两种基本的枚举:数字枚举和字符串枚举,还有衍生的异构枚举(不推荐使用,有违初衷,真使用了要考虑整理一下数据类型了)
-// 暂时了解:'枚举'与'枚举成员'作为类型使用, 具体报错信息看下方注释代码
-
-/*
-// 枚举成员类型
-interface Dog {
-    type: Animal.Dog; // 这里使用Animal.Dog作为类型，指定接口Dog的必须有一个type字段，且类型为Animal.Dog
-}
-interface Cat {
-    type: Animal.Cat; // 这里同上
-}
-let cat1: Cat = {
-    type: Animal.Dog // error [ts] 不能将类型“Animal.Dog”分配给类型“Animal.Cat”
+const info3 = {
+    name: "liwei",
+    age: 18
 };
-let dog: Dog = {
-    type: Animal.Dog
-};
+let values: (string|number)[] = getValue(info3, ["name",'age']);
+console.log('info3',values)
 
-// 枚举类型
-interface Light {
-    status: Switch;
+interface Info {
+    name: string;
+    age: number;
 }
-const light1: Light = {
-  status: Animal.Dog // error 不能将类型“Animal.Dog”分配给类型“Status”
-};
-const light2: Light = {
-  status: Switch.Off
-};
-const light3: Light = {
-  status: Switch.On
-};
-*/
-
+type NameType = Info["name"];
+// let name2: NameType = 1;

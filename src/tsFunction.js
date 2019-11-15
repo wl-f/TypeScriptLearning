@@ -111,11 +111,11 @@ function factorial(number) {
 console.log('tsFunction-递归', factorial(6)); // 输出 720
 /*********箭头函数***********/
 // 大家都熟
-var foo = function (x) { return 10 + x; };
-foo = function (x) { return 10 + x; };
-foo = function (x) { return 10 + x; };
-foo = function (x) { return 10 + x; };
-console.log('tsFunction-foo()', foo(100));
+var foo1 = function (x) { return 10 + x; };
+foo1 = function (x) { return 10 + x; };
+foo1 = function (x) { return 10 + x; };
+foo1 = function (x) { return 10 + x; };
+console.log('tsFunction-foo()', foo1(100));
 function handleData(x) {
     if (typeof x === "string") {
         return x.split("");
@@ -145,5 +145,5 @@ function handleData(x: any): string | string[] { // 这个就是重载的内容�
 
     }
 }
-handleData(123); // 参数number类型,实际返回值也是number类型. 但无论重载定义还是实体函数的返回值类型都没有number, 代码正常运行也没有报错提示.
+handleData(123); // 参数number类型,实际返回值也是number类型. 但无论重载定义还是实体函数的返回值类型都没有number, 代码正常运行也没有报错提示.(丢失的类型校验应该通过泛型可以解决) TODO
 */

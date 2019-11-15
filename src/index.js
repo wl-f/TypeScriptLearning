@@ -1,11 +1,12 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-require("./tsFunction");
-var a = 123;
+// import './tsFunction'
+// import './interfaceAndClass'
+// import './enum'
+// let a:number = 123;
 var h1 = document.createElement("h1");
 h1.innerHTML = "hello TypeScript!";
 document.body.appendChild(h1);
-console.log(a);
+// console.log(a);
 var merge = function (arg1, arg2) {
     var res = {}; // 这里指定返回值的类型兼备T和U两个类型变量代表的类型的特点
     res = Object.assign(arg1, arg2); // 这里使用Object.assign方法，返回一个合并后的对象；
@@ -19,7 +20,7 @@ var info2 = {
 };
 var info = merge(info1, info2);
 console.log(info.name); // error 类型“{ name: string; } & { age: number; }”上不存在属性“address”
-function foo() {
+function foo2() {
     var _a;
     var name = Symbol();
     var obj = (_a = {},
@@ -28,60 +29,43 @@ function foo() {
     console.log(obj);
     console.log(obj[name]);
 }
-foo();
-// 枚举
+foo2();
+var e = function (a) { return 0; };
+var y = function (b) { return 0; };
+var z = function (c) { return false; };
+console.log('y', y(''));
 var Status;
 (function (Status) {
-    Status[Status["Success"] = 200] = "Success";
-    Status[Status["NotFound"] = 404] = "NotFound";
-    Status[Status["Error"] = 500] = "Error";
+    Status[Status["On"] = 0] = "On";
+    Status[Status["Off"] = 1] = "Off";
 })(Status || (Status = {}));
-var sw;
-(function (sw) {
-    sw["Off"] = "off";
-    sw["On"] = "on";
-})(sw || (sw = {}));
-// 只有数字枚举支持反向映射
-console.log(Status.Success);
-console.log(Status[200]);
-// const enum
-// 定义枚举的语句之前加上const关键字,这样编译后的代码不会创建这个对象,只是会从枚举里拿到相应的值进行替换;
-// 注意观察这段代码编译完之后的js代码,就可以看到其中的区别
-var Switch;
-(function (Switch) {
-    Switch[Switch["Off"] = 0] = "Off";
-    Switch[Switch["On"] = 1] = "On";
-})(Switch || (Switch = {}));
-var switchStatus = Switch.On;
-var animalType = 1 /* Dog */;
-// enum总结: 两种基本的枚举:数字枚举和字符串枚举,还有衍生的异构枚举(不推荐使用,有违初衷,真使用了要考虑整理一下数据类型了)
-// 暂时了解:'枚举'与'枚举成员'作为类型使用, 具体报错信息看下方注释代码
-/*
-// 枚举成员类型
-interface Dog {
-    type: Animal.Dog; // 这里使用Animal.Dog作为类型，指定接口Dog的必须有一个type字段，且类型为Animal.Dog
+var Color;
+(function (Color) {
+    Color[Color["White"] = 0] = "White";
+    Color[Color["Black"] = 1] = "Black";
+})(Color || (Color = {}));
+var s = Status.On;
+console.log(s);
+// s = 3;
+console.log(Status.On, Status.Off);
+var d = Color.White;
+console.log(d);
+console.log('s = c', 0 === 0);
+// s = c; // error Type 'Color.White' is not assignable to type 'Status'
+function getSplicedStr(num) {
+    function getRes(prefix) {
+        return prefix + num.toFixed().toString(); // 这里使用参数num，num的类型为number或null，在运行前编译器是无法知道在运行时num参数的实际类型的，所以这里会报错，因为num参数可能为null
+    }
+    num = num || 0.1; // 但是这里进行了赋值，如果num为null则会将0.1赋给num，所以实际调用getRes的时候，getRes里的num拿到的始终不为null
+    return getRes("liwei");
 }
-interface Cat {
-    type: Animal.Cat; // 这里同上
+function getValue(obj, names) {
+    return names.map(function (n) { return obj[n]; }); // 指定getValue的返回值类型为T[K][]，即类型为T的值的属性值组成的数组
 }
-let cat1: Cat = {
-    type: Animal.Dog // error [ts] 不能将类型“Animal.Dog”分配给类型“Animal.Cat”
+var info3 = {
+    name: "liwei",
+    age: 18
 };
-let dog: Dog = {
-    type: Animal.Dog
-};
-
-// 枚举类型
-interface Light {
-    status: Switch;
-}
-const light1: Light = {
-  status: Animal.Dog // error 不能将类型“Animal.Dog”分配给类型“Status”
-};
-const light2: Light = {
-  status: Switch.Off
-};
-const light3: Light = {
-  status: Switch.On
-};
-*/
+var values = getValue(info3, ["name", 'age']);
+console.log('info3', values);
+// let name2: NameType = 1;
