@@ -17,6 +17,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "countup": [
+        "./types/countup/index.d.ts"
       ]
     },
     "lib": [
