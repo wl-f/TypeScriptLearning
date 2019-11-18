@@ -2,7 +2,8 @@
 
 # dependencies
 /node_modules
-/vueDemo
+/vueDemo/node_modules
+/reactDemo/node_modules
 
 # production
 # /dist
