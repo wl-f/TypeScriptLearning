@@ -22,7 +22,7 @@
     "@types/mockjs": "^1.0.2",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-typescript": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
+    "@vue/cli-service": "^5.0.8",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "typescript": "~3.5.3",
